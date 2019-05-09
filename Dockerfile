@@ -4,7 +4,7 @@ ENV BOOKSTACK=BookStack \
     BOOKSTACK_VERSION=0.25.2 \
     BOOKSTACK_HOME="/var/www/bookstack"
 
-RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev wget libldap2-dev libtidy-dev \
+RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev wget libldap2-dev libtidy-dev zip \
    && docker-php-ext-install pdo pdo_mysql mbstring zip tidy \
    && docker-php-ext-configure ldap \
    && docker-php-ext-install ldap \
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg
    && cd /var/www && curl -sS https://getcomposer.org/installer | php \
    && mv /var/www/composer.phar /usr/local/bin/composer \
    && wget https://github.com/mg17/BookStack/archive/master.tar.gz -O master.tar.gz \
-   && tar -xf master.tar.gz && mv BookStack $BOOKSTACK_HOME && rm master.tar.gz  \
+   && unzip master.zip && mv BookStack-master/* $BOOKSTACK_HOME && rm master.zip  \
    && cd $BOOKSTACK_HOME && composer install \
    && chown -R www-data:www-data $BOOKSTACK_HOME \
    && apt-get -y autoremove \
